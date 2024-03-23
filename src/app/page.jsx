@@ -41,11 +41,10 @@ export default function Home() {
       const { data, error } = await supabaseClient.from("usuarios").insert([
         {
           // Asegúrate de que los nombres de las propiedades coincidan con los campos de tu tabla en Supabase
-          //id: id,
           nombre: nombre,
-          //cp: cp,
-          //manzana: manzana,
-          //lote: lote,
+          cp: cp,
+          manzana: manzana,
+          lote: lote,
           //colonias: colonias,
           edad: edad,
           //fecha: fecha,
