@@ -3,6 +3,7 @@ import { useState } from "react";
 import { supabaseClient } from "./db/supabase";
 import NavbarMenu from "./navbar/NavbarMenu";
 
+
 export default function Home() {
   const [formData, setFormData] = useState({
     id: "",
