@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { supabaseClient } from "./db/supabase";
 import NavbarMenu from "./navbar/NavbarMenu";
-
+import PDFDocument from "./pdf";
+import { PDFDownloadLink } from "@react-pdf/renderer";
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,6 @@ export default function Home() {
     cp: "",
     manzana: "",
     lote: "",
-    colonias: "",
     edad: "",
     fecha: "",
     horaEntrega: "",
@@ -32,7 +32,6 @@ export default function Home() {
       cp,
       manzana,
       lote,
-      colonias,
       edad,
       fecha,
       horaEntrega,
@@ -46,7 +45,6 @@ export default function Home() {
           cp: cp,
           manzana: manzana,
           lote: lote,
-          //colonias: colonias,
           edad: edad,
           //fecha: fecha,
           //hora_entrega: horaEntrega, // Asegúrate de ajustar a los nombres correctos de las columnas
@@ -64,12 +62,13 @@ export default function Home() {
         cp: "",
         manzana: "",
         lote: "",
-        colonias: "",
         edad: "",
         fecha: "",
         horaEntrega: "",
         fechaPedido: "",
       });
+
+      renderPDF(formData);
     } catch (error) {
       console.error("Error al enviar el formulario:", error.message);
     }
@@ -146,22 +145,6 @@ export default function Home() {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="colonias" className="block mb-2 font-semibold">
-              Colonias:
-            </label>
-            <select
-              id="colonias"
-              name="colonias"
-              value={formData.colonias}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-md"
-            >
-              {/* Opciones de colonias */}
-              <option value="colonia1">Colonia 1</option>
-              <option value="colonia2">Colonia 2</option>
-              <option value="colonia3">Colonia 3</option>
-              {/* Añade más opciones según sea necesario */}
-            </select>
           </div>
           <div className="mb-6">
             <label htmlFor="edad" className="block mb-2 font-semibold">
@@ -223,6 +206,14 @@ export default function Home() {
             Enviar
           </button>
         </form>
+
+        {/* Enlace para descargar el PDF */}
+        <PDFDownloadLink
+          document={<PDFDocument formData={formData} />}
+          fileName="formulario.pdf"
+        >
+          {({ loading }) => (loading ? "Generando PDF..." : "Descargar PDF")}
+        </PDFDownloadLink>
       </main>
     </>
   );
